@@ -1,0 +1,41 @@
+================================================================================
+YOLOv8 Garbage Classification Training Report
+================================================================================
+
+Training Configuration:
+--------------------------------------------------------------------------------
+Model: YOLOv8m
+Dataset: Garbage Classification (7 classes)
+Data Config: configs/garbage.yaml
+Epochs: 150
+Image Size: 640
+Batch Size: 128
+Device: [0, 1, 2, 3]
+Training Time: 0:47:17.759600
+Report Generated: 2025-11-12 19:08:25
+
+Training Progress:
+--------------------------------------------------------------------------------
+Note: Could not parse results.csv (No module named 'pandas')
+
+Test Set Validation Results:
+--------------------------------------------------------------------------------
+mAP50: 0.4306
+mAP50-95: 0.3075
+Precision: 0.4711
+Recall: 0.4638
+
+Per-Class mAP50:
+--------------------------------------------------------------------------------
+cardboard      : 0.0589
+glass          : 0.0776
+metal          : 0.6854
+paper          : 0.6500
+plastic        : 0.6811
+
+Saved Models:
+--------------------------------------------------------------------------------
+Best Model: /nas03/yixuh/garbage-classification/models/garbage_yolov8s/weights/best.pt
+Last Model: /nas03/yixuh/garbage-classification/models/garbage_yolov8s/weights/last.pt
+
+================================================================================

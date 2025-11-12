@@ -31,6 +31,7 @@ models/garbage_yolov8s/*.pt
 models/garbage_yolov8s/*.png
 models/garbage_yolov8s/weights/epoch*.pt
 models/garbage_yolov8s/weights/last.pt
+yolo*.pt
 
 # Virtual Environment
 venv/
@@ -60,10 +61,8 @@ data/processed/
 *.webp
 
 # Models & Training
-models/
 runs/
-weights/
-*.pt
+# *.pt
 *.pth
 *.onnx
 *.engine
