@@ -190,7 +190,7 @@ async def root():
         "status": "running",
         "version": "1.0.0",
         "model": "YOLOv8m",
-        "dataset": "TACO",
+        # "dataset": "TACO",
         "endpoints": {
             "detection": "/v1/detect_trash",
             "docs": "/docs",
