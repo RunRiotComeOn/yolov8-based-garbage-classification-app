@@ -1,0 +1,21 @@
+# Garbage Classification Dataset Configuration for YOLOv8
+# Dataset: GARBAGE CLASSIFICATION 3 from Roboflow
+# Source: https://universe.roboflow.com/material-identification/garbage-classification-3
+
+# Dataset paths
+path: /nas03/yixuh/garbage-classification/data/processed  # dataset root dir
+train: images/train      # train images (relative to 'path')
+val: images/valid        # val images (relative to 'path')
+test: images/test        # test images (relative to 'path')
+
+# Number of classes
+nc: 6
+
+# Class names (6 garbage categories)
+names:
+  0: BIODEGRADABLE
+  1: CARDBOARD
+  2: GLASS
+  3: METAL
+  4: PAPER
+  5: PLASTIC

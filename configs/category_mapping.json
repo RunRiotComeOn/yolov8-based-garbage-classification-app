@@ -1,0 +1,85 @@
+{
+  "mapping": {
+    "BIODEGRADABLE": "Organic",
+    "CARDBOARD": "Recycle",
+    "GLASS": "Recycle",
+    "METAL": "Recycle",
+    "PAPER": "Recycle",
+    "PLASTIC": "Recycle"
+  },
+  "categories": {
+    "Recycle": {
+      "description": "Recyclable materials that can be processed and reused",
+      "examples": ["CARDBOARD", "GLASS", "METAL", "PAPER", "PLASTIC"],
+      "disposal_instructions": "Clean and dry before recycling",
+      "chinese": "可回收物"
+    },
+    "Organic": {
+      "description": "Biodegradable organic waste",
+      "examples": ["BIODEGRADABLE", "Food waste", "Food scraps"],
+      "disposal_instructions": "Compost or dispose in organic waste bin",
+      "chinese": "有机垃圾"
+    }
+  },
+  "class_details": {
+    "0": {
+      "name": "BIODEGRADABLE",
+      "category": "Organic",
+      "description": "Organic and biodegradable waste materials",
+      "examples": ["Food waste", "Fruit peels", "Vegetable scraps", "Organic materials"],
+      "count": 45407,
+      "percentage": "61.29%"
+    },
+    "1": {
+      "name": "CARDBOARD",
+      "category": "Recycle",
+      "description": "Cardboard boxes and packaging materials",
+      "examples": ["Cardboard boxes", "Packaging", "Corrugated cardboard"],
+      "count": 4698,
+      "percentage": "6.34%"
+    },
+    "2": {
+      "name": "GLASS",
+      "category": "Recycle",
+      "description": "Glass bottles, jars and containers",
+      "examples": ["Glass bottles", "Jars", "Broken glass"],
+      "count": 7809,
+      "percentage": "10.54%"
+    },
+    "3": {
+      "name": "METAL",
+      "category": "Recycle",
+      "description": "Metal cans and containers",
+      "examples": ["Aluminum cans", "Metal foil", "Metal containers"],
+      "count": 5841,
+      "percentage": "7.88%"
+    },
+    "4": {
+      "name": "PAPER",
+      "category": "Recycle",
+      "description": "Paper products and documents",
+      "examples": ["Newspapers", "Documents", "Paper bags", "Magazines"],
+      "count": 4390,
+      "percentage": "5.93%"
+    },
+    "5": {
+      "name": "PLASTIC",
+      "category": "Recycle",
+      "description": "Plastic bottles, bags and containers",
+      "examples": ["Plastic bottles", "Plastic bags", "Plastic containers"],
+      "count": 5945,
+      "percentage": "8.02%"
+    }
+  },
+  "metadata": {
+    "total_classes": 6,
+    "total_instances": 74090,
+    "total_images": 10464,
+    "dataset_name": "GARBAGE CLASSIFICATION 3",
+    "dataset_version": "v2",
+    "dataset_source": "Roboflow Universe",
+    "mapping_version": "2.0",
+    "last_updated": "2025-11-12",
+    "notes": "Updated mapping for 6-class Roboflow Garbage Classification dataset"
+  }
+}

@@ -1,0 +1,97 @@
+# Python
+api/__pycache__/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+.claude/
+data/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+runs/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+models/garbage_yolov8s/*.log
+models/garbage_yolov8s/*.pt
+models/garbage_yolov8s/*.png
+models/garbage_yolov8s/weights/epoch*.pt
+models/garbage_yolov8s/weights/last.pt
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# PyCharm
+.idea/
+
+# VSCode
+.vscode/
+
+# Datasets
+data/raw/
+data/processed/
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+*.webp
+
+# Models & Training
+models/
+runs/
+weights/
+*.pt
+*.pth
+*.onnx
+*.engine
+*.tflite
+
+# Logs
+*.log
+logs/
+tensorboard/
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Cache
+.cache/
+*.cache
