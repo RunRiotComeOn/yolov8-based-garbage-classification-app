@@ -6,6 +6,7 @@ Provides API endpoint for real-time trash detection and classification
 import os
 import json
 import io
+import time
 from pathlib import Path
 from typing import List, Dict, Optional
 import logging
@@ -13,17 +14,18 @@ import logging
 import numpy as np
 import cv2
 from PIL import Image
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, File, UploadFile, HTTPException, Request
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from ultralytics import YOLO
 import torch
 
 
-# Configure logging
+# Configure logging with more detailed format
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format='%(asctime)s - %(name)s - %(levelname)s - [%(filename)s:%(lineno)d] - %(message)s'
 )
 logger = logging.getLogger(__name__)
 
@@ -88,15 +90,44 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 
+# Add CORS middleware for mobile app access
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins for development
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Request logging middleware
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    """Log all incoming requests and their processing time"""
+    start_time = time.time()
+    client_host = request.client.host if request.client else "unknown"
+
+    logger.info(f"➡️  Incoming request: {request.method} {request.url.path} from {client_host}")
+
+    try:
+        response = await call_next(request)
+        process_time = (time.time() - start_time) * 1000
+        logger.info(f"✅ Request completed in {process_time:.2f}ms - Status: {response.status_code}")
+        return response
+    except Exception as e:
+        process_time = (time.time() - start_time) * 1000
+        logger.error(f"❌ Request failed after {process_time:.2f}ms - Error: {str(e)}")
+        raise
+
 
 # Global variables for model and category mapping
 model = None
 category_mapping = None
+device = 'cuda'  # GPU/CPU device
 
 
 def load_model(model_path: str = None):
     """Load YOLOv8 model"""
-    global model
+    global model, device
 
     if model_path is None:
         # Default model path
@@ -112,16 +143,20 @@ def load_model(model_path: str = None):
     logger.info(f"Loading model from: {model_path}")
 
     try:
-        model = YOLO(str(model_path))
-
-        # Check if GPU is available
+        # Determine device (GPU or CPU)
         if torch.cuda.is_available():
-            device = torch.cuda.get_device_name(0)
-            logger.info(f"Using GPU: {device}")
+            device = 'cuda'
+            gpu_name = torch.cuda.get_device_name(0)
+            logger.info(f"Using GPU: {gpu_name}")
         else:
+            device = 'cpu'
             logger.warning("GPU not available, using CPU (slower inference)")
 
-        logger.info("Model loaded successfully!")
+        # Load model and move to device
+        model = YOLO(str(model_path))
+        model.to(device)
+
+        logger.info(f"Model loaded successfully on device: {device}")
         return model
 
     except Exception as e:
@@ -210,7 +245,8 @@ async def health_check():
         "model_loaded": model is not None,
         "category_mapping_loaded": category_mapping is not None,
         "gpu_available": gpu_available,
-        "gpu_name": gpu_name
+        "gpu_name": gpu_name,
+        "device_in_use": device if device else "N/A"
     }
 
 
@@ -245,28 +281,36 @@ async def detect_trash(
 
     try:
         # Read image file
+        logger.info(f"📥 Receiving image: {image.filename} ({image.content_type})")
         contents = await image.read()
+        file_size_mb = len(contents) / (1024 * 1024)
+        logger.info(f"📦 Image size: {file_size_mb:.2f} MB")
+
         image_bytes = io.BytesIO(contents)
 
         # Convert to PIL Image
+        logger.info("🖼️  Converting to PIL Image...")
         pil_image = Image.open(image_bytes)
 
         # Convert to numpy array (RGB)
+        logger.info("🔄 Converting to numpy array...")
         img_array = np.array(pil_image)
 
         # If image has alpha channel, remove it
         if img_array.shape[-1] == 4:
+            logger.info("🎨 Removing alpha channel...")
             img_array = img_array[..., :3]
 
-        logger.info(f"Processing image: {image.filename} | Shape: {img_array.shape}")
+        logger.info(f"✅ Image preprocessed | Shape: {img_array.shape} | Device: {device}")
 
-        # Run inference
-        import time
+        # Run inference on GPU/CPU
         start_time = time.time()
+        logger.info(f"🤖 Starting model inference on {device}...")
 
-        results = model(img_array, conf=0.25, iou=0.45)  # conf threshold, iou threshold
+        results = model(img_array, conf=0.25, iou=0.45, device=device)  # conf threshold, iou threshold
 
         inference_time = (time.time() - start_time) * 1000  # Convert to milliseconds
+        logger.info(f"⚡ Model inference completed in {inference_time:.2f}ms")
 
         # Process results
         detections = []
