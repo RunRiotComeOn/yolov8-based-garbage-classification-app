@@ -238,11 +238,11 @@ curl http://localhost:8000/v1/categories
 
 ### Disposal Categories (L2 Labels)
 
-| Category (Chinese) | English | Mapped Materials |
-|--------------------|---------|------------------|
-| 可回收物 | Recycle | PLASTIC, PAPER, METAL, GLASS, CARDBOARD |
-| 其他垃圾 | Trash | CLOTH |
-| 有机垃圾 | Organic | BIODEGRADABLE |
+| English | Mapped Materials |
+|---------|------------------|
+| Recycle | PLASTIC, PAPER, METAL, GLASS, CARDBOARD |
+| Trash | CLOTH |
+| Organic | BIODEGRADABLE |
 
 View full mapping: `configs/category_mapping.json`
 

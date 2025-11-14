@@ -1,103 +1,148 @@
-# 垃圾分类AI助手 - 移动端应用
+# Garbage Classification AI Assistant - Mobile App
 
-基于Flutter开发的垃圾分类AI识别移动应用,使用YOLOv8模型进行实时垃圾检测和分类。
+A Flutter-based mobile application for AI-powered garbage classification using the YOLOv8 model for real-time object detection and classification.
 
-## 功能特性
+## Features
 
-### 核心功能
-- ✅ **AI智能识别**: 使用YOLOv8模型实时检测和分类垃圾
-- 📸 **拍照识别**: 调用设备摄像头拍照进行实时识别
-- 🖼️ **相册选择**: 从设备相册选择图片进行识别
-- 🎯 **结果可视化**: 在图片上绘制边界框和标签
-- 📚 **分类指南**: 详细的垃圾分类指南和说明
-- 🔍 **搜索功能**: 快速搜索垃圾类型和处理方法
+### Core Features
+- **AI-Powered Recognition**: Real-time garbage detection and classification using YOLOv8
+- **Camera Capture**: Take photos with the device camera for instant recognition
+- **Gallery Selection**: Choose images from the device photo library
+- **Result Visualization**: Draw bounding boxes and labels on detected objects
+- **Classification Guide**: Detailed garbage sorting instructions and explanations
+- **Search Functionality**: Quickly search for waste types and disposal methods
 
-### 支持的垃圾类型
-- **BIODEGRADABLE** (有机垃圾) - 可降解的有机物质
-- **CARDBOARD** (纸板) - 纸箱和包装材料
-- **GLASS** (玻璃) - 玻璃瓶、罐和容器
-- **METAL** (金属) - 金属罐和容器
-- **PAPER** (纸类) - 纸制品和文件
-- **PLASTIC** (塑料) - 塑料瓶、袋和容器
+### Supported Waste Types
+- **BIODEGRADABLE** (Organic Waste) - Decomposable organic matter
+- **CARDBOARD** (Cardboard) - Cardboard boxes and packaging
+- **GLASS** (Glass) - Glass bottles, jars, and containers
+- **METAL** (Metal) - Metal cans and containers
+- **PAPER** (Paper) - Paper products and documents
+- **PLASTIC** (Plastic) - Plastic bottles, bags, and containers
 
-### 分类类别
-- **Recycle** (可回收物) - 蓝色
-- **Organic** (有机垃圾) - 绿色
-- **Trash** (其他垃圾) - 灰色
-- **Hazardous** (有害垃圾) - 红色
+### Classification Categories
+- **Recycle** (Recyclables) - Blue
+- **Organic** (Organic Waste) - Green
+- **Trash** (General Waste) - Gray
+- **Hazardous** (Hazardous Waste) - Red
 
-## 技术栈
+## Tech Stack
 
-- **前端框架**: Flutter 3.0+
-- **图像选择**: image_picker ^1.0.7
-- **网络请求**: dio ^5.4.0
-- **权限管理**: permission_handler ^11.0.0
-- **后端API**: FastAPI + YOLOv8
-- **AI模型**: YOLOv8 (训练自Roboflow Garbage Classification数据集)
+- **Frontend Framework**: Flutter 3.0+
+- **Image Picker**: image_picker ^1.0.7
+- **HTTP Client**: dio ^5.4.0
+- **Permissions**: permission_handler ^11.0.0
+- **Backend API**: FastAPI + YOLOv8
+- **AI Model**: YOLOv8 (trained on Roboflow Garbage Classification dataset)
 
-## 项目结构
+## Project Structure
 
 ```
 mobile_app/
 ├── lib/
-│   ├── models/              # 数据模型
-│   │   ├── detection.dart   # 检测结果模型
-│   │   └── garbage_guide.dart  # 分类指南模型
-│   ├── services/            # 服务层
-│   │   ├── api_service.dart     # API调用服务
-│   │   ├── guide_service.dart   # 分类指南服务
-│   │   └── image_picker_service.dart  # 图像选择服务
-│   ├── screens/             # 页面
-│   │   ├── home_screen.dart     # 主页面
-│   │   ├── detection_screen.dart  # 检测页面
-│   │   └── guide_screen.dart    # 指南页面
-│   ├── widgets/             # UI组件
-│   │   └── detection_painter.dart  # 边界框绘制
-│   └── main.dart           # 应用入口
-├── android/                # Android配置
-├── ios/                    # iOS配置
-├── pubspec.yaml           # 依赖配置
-└── README.md              # 项目说明
+│   ├── models/              # Data models
+│   │   ├── detection.dart   # Detection result model
+│   │   └── garbage_guide.dart  # Classification guide model
+│   ├── services/            # Service layer
+│   │   ├── api_service.dart     # API service
+│   │   ├── guide_service.dart   # Guide service
+│   │   └── image_picker_service.dart  # Image picker service
+│   ├── screens/             # Screens
+│   │   ├── home_screen.dart     # Home screen
+│   │   ├── detection_screen.dart  # Detection screen
+│   │   └── guide_screen.dart    # Guide screen
+│   ├── widgets/             # UI components
+│   │   └── detection_painter.dart  # Bounding box painter
+│   └── main.dart           # App entry point
+├── android/                # Android configuration
+├── ios/                    # iOS configuration
+├── pubspec.yaml           # Dependencies
+└── README.md              # Project documentation
 ```
 
-## 安装与配置
+## Core File Descriptions
 
-### 前置要求
-- Flutter SDK 3.0 或更高版本
-- Android Studio 或 Xcode (根据目标平台)
-- 后端API服务已部署并运行
+### App Entry
+- **lib/main.dart**: Application entry point, configures theme and routing
 
-### 安装步骤
+### Data Models
+- **lib/models/detection.dart**:
+  - `Detection`: Single detection result model
+  - `DetectionResponse`: API response model
 
-1. **克隆项目**
+- **lib/models/garbage_guide.dart**:
+  - `GarbageCategory`: Waste category model
+  - `GarbageItem`: Specific waste item model
+
+### Services
+- **lib/services/api_service.dart**:
+  - `GarbageDetectorService`: API communication service
+  - Methods: `detectGarbage()`, `checkHealth()`, `getCategories()`
+
+- **lib/services/guide_service.dart**:
+  - `GuideService`: Garbage classification guide data service
+  - Methods: `getAllCategories()`, `getAllItems()`, `searchItems()`
+
+- **lib/services/image_picker_service.dart**:
+  - `ImagePickerService`: Image selection service
+  - Methods: `pickFromCamera()`, `pickFromGallery()`
+
+### Screens
+- **lib/screens/home_screen.dart**:
+  - `HomeScreen`: Main screen with bottom navigation
+  - `AboutScreen`: About page
+
+- **lib/screens/detection_screen.dart**:
+  - `DetectionScreen`: Main garbage detection interface
+  - Features: Take photo, select image, display results, draw bounding boxes
+
+- **lib/screens/guide_screen.dart**:
+  - `GuideScreen`: Garbage classification guide page
+  - Features: Display category info, search functionality
+
+### Widgets
+- **lib/widgets/detection_painter.dart**:
+  - `DetectionPainter`: Custom painter for drawing bounding boxes
+  - `DetectionOverlay`: Overlay component for detection results
+
+## Installation & Setup
+
+### Prerequisites
+- Flutter SDK 3.0 or higher
+- Android Studio or Xcode (depending on target platform)
+- Backend API service deployed and running
+
+### Setup Steps
+
+1. **Navigate to Project**
 ```bash
 cd /nas03/yixuh/garbage-classification/mobile_app
 ```
 
-2. **安装依赖**
+2. **Install Dependencies**
 ```bash
 flutter pub get
 ```
 
-3. **配置API地址**
+3. **Configure API Endpoint**
 
-编辑 `lib/services/api_service.dart` 文件,修改API地址:
+Edit `lib/services/api_service.dart` and update the API URL:
 
 ```dart
 static const String defaultApiUrl = "http://YOUR_SERVER_IP:8000";
 ```
 
-#### 开发环境配置(局域网测试)
-- 确保手机和API服务器在同一局域网
-- 获取服务器IP地址: `ifconfig` (Linux/Mac) 或 `ipconfig` (Windows)
-- 示例: `http://192.168.1.10:8000`
+#### Development Environment (LAN Testing)
+- Ensure phone and API server are on the same local network
+- Get server IP: `ifconfig` (Linux/Mac) or `ipconfig` (Windows)
+- Example: `http://192.168.1.10:8000`
 
-#### 生产环境配置
-- 部署API到云服务器(阿里云、腾讯云、AWS等)
-- 使用公网域名或IP地址
-- 示例: `https://api.yourdomain.com`
+#### Production Environment
+- Deploy API to a cloud server (Alibaba Cloud, Tencent Cloud, AWS, etc.)
+- Use public domain or IP
+- Example: `https://api.yourdomain.com`
 
-4. **运行应用**
+4. **Run the App**
 
 Android:
 ```bash
@@ -109,74 +154,74 @@ iOS:
 flutter run
 ```
 
-构建APK (Android):
+Build APK (Android):
 ```bash
 flutter build apk --release
 ```
 
-构建IPA (iOS):
+Build IPA (iOS):
 ```bash
 flutter build ios --release
 ```
 
-## 权限说明
+## Permissions
 
-### Android权限
-应用需要以下权限:
-- `CAMERA` - 拍照功能
-- `READ_EXTERNAL_STORAGE` - 读取相册
-- `WRITE_EXTERNAL_STORAGE` - 保存图片
-- `INTERNET` - 网络请求
-- `ACCESS_NETWORK_STATE` - 检查网络状态
+### Android Permissions
+The app requires:
+- `CAMERA` - For taking photos
+- `READ_EXTERNAL_STORAGE` - To read from gallery
+- `WRITE_EXTERNAL_STORAGE` - To save images
+- `INTERNET` - For network requests
+- `ACCESS_NETWORK_STATE` - To check network status
 
-### iOS权限
-应用需要以下权限说明:
-- `NSCameraUsageDescription` - 相机使用说明
-- `NSPhotoLibraryUsageDescription` - 相册访问说明
-- `NSPhotoLibraryAddUsageDescription` - 保存到相册说明
+### iOS Permissions
+The app requires:
+- `NSCameraUsageDescription` - Camera usage description
+- `NSPhotoLibraryUsageDescription` - Photo library access description
+- `NSPhotoLibraryAddUsageDescription` - Save to photo library description
 
-## 使用方法
+## How to Use
 
-### 1. 垃圾识别
+### 1. Garbage Recognition
 
-#### 拍照识别
-1. 打开应用,进入"识别"页面
-2. 点击"拍照识别"按钮
-3. 允许相机权限
-4. 拍摄垃圾照片
-5. 等待AI识别结果
-6. 查看检测到的垃圾类型和分类建议
+#### Camera Capture
+1. Open the app, go to the "Detect" tab
+2. Tap "Take Photo"
+3. Grant camera permission
+4. Capture a photo of the garbage
+5. Wait for AI analysis
+6. View detected waste types and disposal suggestions
 
-#### 相册选择
-1. 打开应用,进入"识别"页面
-2. 点击"相册选择"按钮
-3. 允许相册权限
-4. 从相册选择图片
-5. 等待AI识别结果
+#### Gallery Selection
+1. Open the app, go to the "Detect" tab
+2. Tap "Choose from Gallery"
+3. Grant photo library permission
+4. Select an image
+5. Wait for AI analysis
 
-### 2. 分类指南
+### 2. Classification Guide
 
-1. 切换到"指南"标签页
-2. 浏览各类垃圾的分类说明
-3. 使用搜索框快速查找特定垃圾类型
-4. 展开类别卡片查看详细信息
+1. Switch to the "Guide" tab
+2. Browse waste categories and instructions
+3. Use the search bar to find specific items
+4. Expand category cards for detailed information
 
-### 3. API设置
+### 3. API Settings
 
-1. 在"识别"页面点击右上角设置图标
-2. 输入API服务器地址
-3. 点击保存
-4. 应用会自动使用新的API地址
+1. On the "Detect" screen, tap the settings icon in the top-right
+2. Enter the API server address
+3. Tap Save
+4. The app will use the new endpoint
 
-## API接口说明
+## API Endpoints
 
-### 检测接口
+### Detection Endpoint
 - **URL**: `POST /v1/detect_trash`
 - **Content-Type**: `multipart/form-data`
-- **参数**:
-  - `image`: 图片文件
+- **Parameter**:
+  - `image`: Image file
 
-- **响应示例**:
+- **Response Example**:
 ```json
 {
   "status": "success",
@@ -199,170 +244,153 @@ flutter build ios --release
 }
 ```
 
-### 健康检查接口
+### Health Check Endpoint
 - **URL**: `GET /health`
-- **响应**: API服务器状态信息
+- **Response**: API server status
 
-### 分类信息接口
+### Categories Endpoint
 - **URL**: `GET /v1/categories`
-- **响应**: 支持的所有分类信息
+- **Response**: All supported classification categories
 
-## 故障排除
+## Troubleshooting
 
-### 1. 无法连接到API服务器
+### 1. Cannot Connect to API Server
 
-**错误信息**: "无法连接到服务器,请检查API地址和网络"
+**Error**: "Unable to connect to server. Please check API address and network"
 
-**解决方法**:
-- 检查手机和服务器是否在同一局域网
-- 确认API服务器正在运行: `curl http://YOUR_IP:8000/health`
-- 检查防火墙设置
-- 确认API地址配置正确
-- 测试网络连接: `ping YOUR_SERVER_IP`
+**Solutions**:
+- Verify phone and server are on the same network
+- Confirm API is running: `curl http://YOUR_IP:8000/health`
+- Check firewall settings
+- Verify API URL is correct
+- Test connectivity: `ping YOUR_SERVER_IP`
 
-### 2. 相机/相册权限被拒绝
+### 2. Camera/Gallery Permission Denied
 
-**错误信息**: "需要相机权限才能拍照"
+**Error**: "Camera permission required to take photos"
 
-**解决方法**:
-- Android: 设置 → 应用 → 垃圾分类AI助手 → 权限 → 开启相机和存储权限
-- iOS: 设置 → 隐私 → 相机/照片 → 开启权限
+**Solutions**:
+- Android: Settings → Apps → Garbage AI Assistant → Permissions → Enable Camera & Storage
+- iOS: Settings → Privacy → Camera/Photos → Enable access
 
-### 3. 检测结果不准确
+### 3. Inaccurate Detection Results
 
-**可能原因**:
-- 光线条件不佳
-- 垃圾物品不清晰
-- 物品太小或太远
+**Possible Causes**:
+- Poor lighting
+- Blurry or unclear object
+- Object too small or far away
 
-**改进建议**:
-- 在光线充足的环境下拍照
-- 尽量拍摄物品的正面和全貌
-- 保持合适的距离(1-2米)
-- 确保物品占据画面的主要部分
+**Tips**:
+- Take photos in well-lit environments
+- Capture front-facing, full view of the object
+- Keep appropriate distance (1–2 meters)
+- Ensure object occupies most of the frame
 
-### 4. 应用崩溃或卡顿
+### 4. App Crashes or Lags
 
-**解决方法**:
-- 重启应用
-- 清理应用缓存
-- 确保设备有足够的存储空间
-- 更新到最新版本
+**Solutions**:
+- Restart the app
+- Clear app cache
+- Ensure sufficient storage space
+- Update to the latest version
 
-## 开发指南
+## Development Guide
 
-### 修改API地址
+### Change API Endpoint
 
-编辑 `lib/services/api_service.dart`:
+Edit `lib/services/api_service.dart`:
 ```dart
 static const String defaultApiUrl = "http://YOUR_NEW_IP:8000";
 ```
 
-### 添加新的垃圾类型
+### Add New Waste Type
 
-编辑 `lib/services/guide_service.dart`,在 `getAllItems()` 方法中添加:
+Edit `lib/services/guide_service.dart`, add to `getAllItems()`:
 ```dart
 GarbageItem(
   name: 'NEW_TYPE',
   category: 'Recycle',
-  description: '描述',
-  examples: ['示例1', '示例2'],
+  description: 'Description',
+  examples: ['Example 1', 'Example 2'],
 ),
 ```
 
-### 自定义主题�色
+### Customize Theme Color
 
-编辑 `lib/main.dart`:
+Edit `lib/main.dart`:
 ```dart
 theme: ThemeData(
-  primarySwatch: Colors.green, // 修改为其他颜色
+  primarySwatch: Colors.green, // Change to desired color
   ...
 ),
 ```
 
-## 性能优化建议
+## Performance Optimization
 
-1. **图片压缩**: 应用已自动将上传图片压缩到1920x1080,质量85%
-2. **网络超时**: 设置为30秒,可根据需要调整
-3. **缓存管理**: 定期清理临时文件
-4. **内存优化**: 及时释放不需要的图片资源
+1. **Image Compression**: App automatically resizes to 1920x1080, 85% quality
+2. **Network Timeout**: Set to 30 seconds, adjustable as needed
+3. **Cache Management**: Regularly clear temporary files
+4. **Memory Optimization**: Release unused image resources promptly
 
-## 部署说明
+## Deployment
 
-### 开发环境(局域网)
-1. 启动后端API服务
-2. 获取服务器局域网IP
-3. 配置API地址
-4. 确保设备在同一网络
-5. 运行应用
+### Development (Local Network)
+1. Start backend API service
+2. Get server LAN IP
+3. Configure API endpoint
+4. Ensure devices are on the same network
+5. Run the app
 
-### 生产环境(公网)
-1. 将后端API部署到云服务器
-2. 配置域名和SSL证书(HTTPS)
-3. 修改API地址为公网地址
-4. 构建发布版本
-5. 上传到应用商店或分发平台
+### Production (Public Network)
+1. Deploy backend API to cloud server
+2. Set up domain and SSL certificate (HTTPS)
+3. Update API endpoint to public URL
+4. Build release version
+5. Upload to app stores or distribution platforms
 
-### 使用ngrok进行临时测试
+### Temporary Testing with ngrok
 ```bash
-# 在API服务器上运行
+# Run on API server
 ngrok http 8000
 
-# 将生成的URL配置到应用
+# Use generated URL in app
 # https://xxxx-xxx-xxx-xxx.ngrok.io
 ```
 
-## 常见问题(FAQ)
+## FAQ
 
-**Q: 支持哪些平台?**
-A: Android 5.0+ 和 iOS 11.0+
+**Q: Which platforms are supported?**  
+A: Android 5.0+ and iOS 11.0+
 
-**Q: 检测需要多长时间?**
-A: 通常在100-500ms内完成,取决于网络和服务器性能
+**Q: How long does detection take?**  
+A: Typically 100–500ms, depending on network and server performance
 
-**Q: 可以离线使用吗?**
-A: 目前需要网络连接,未来版本可能支持离线模型
+**Q: Can it work offline?**  
+A: Currently requires internet; offline model support planned for future versions
 
-**Q: 支持批量检测吗?**
-A: 当前版本支持单张图片检测,一次可检测多个物体
+**Q: Does it support batch detection?**  
+A: Current version supports single-image detection with multiple objects
 
-**Q: 检测准确率如何?**
-A: 平均准确率85%+,在良好光线和清晰图片下可达90%+
+**Q: What is the detection accuracy?**  
+A: Average accuracy 85%+, up to 90%+ in good lighting and clear images
 
-## 更新日志
 
-### Version 1.0.0 (2025-11-12)
-- ✅ 初始版本发布
-- ✅ 实现AI垃圾识别功能
-- ✅ 实现分类指南和搜索
-- ✅ 支持Android和iOS平台
-- ✅ 实现边界框可视化
-- ✅ 支持拍照和相册选择
+## Future Plans
 
-## 未来规划
+- [ ] Offline model support
+- [ ] Batch image processing
+- [ ] Detection history
+- [ ] Eco-points system
+- [ ] Nearby recycling point map
+- [ ] Scheduled pickup reminders
+- [ ] Multi-language support
+- [ ] Dark mode
+- [ ] Share functionality
 
-- [ ] 离线模型支持
-- [ ] 批量图片处理
-- [ ] 历史记录功能
-- [ ] 环保积分系统
-- [ ] 附近回收点地图
-- [ ] 定时回收提醒
-- [ ] 多语言支持
-- [ ] 深色模式
-- [ ] 分享功能
+## Contributing
 
-## 贡献指南
+Issues and Pull Requests are welcome!
 
-欢迎提交Issue和Pull Request!
-
-## 许可证
+## License
 
 MIT License
-
-## 联系方式
-
-如有问题或建议,请联系开发团队。
-
----
-
-**Made with ❤️ for a cleaner environment**

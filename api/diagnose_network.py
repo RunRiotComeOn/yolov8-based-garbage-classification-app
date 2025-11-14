@@ -1,8 +1,3 @@
-"""
-网络连通性诊断工具
-用于诊断Android模拟器连接API服务器的问题
-"""
-
 import socket
 import requests
 import subprocess
