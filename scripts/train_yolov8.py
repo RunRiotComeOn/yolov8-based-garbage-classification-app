@@ -116,8 +116,9 @@ def train_model(
         'name': name,
         'exist_ok': True,
         'patience': 50,  # Early stopping patience
+        'cos_lr': True,
         'pretrained': True, # !
-        'freeze': 10,  # !Freeze first 10 layers
+        'freeze': 0,  # !Freeze first 10 layers
         'save': True,
         'save_period': 10,  # Save checkpoint every 10 epochs
         'cache': False,  # Don't cache images (uses less RAM)
@@ -130,13 +131,13 @@ def train_model(
         'warmup_epochs': 5.0,  # Warmup epochs (increased)
         'warmup_momentum': 0.8,  # Warmup initial momentum
         'warmup_bias_lr': 0.1,  # Warmup initial bias lr
-        'box': 7.5,  # Box loss gain
-        'cls': 1,  # Class loss gain (increased for better classification)
+        'box': 10.0,  # Box loss gain
+        'cls': 1.5,  # Class loss gain (increased for better classification)
         'dfl': 1.5,  # DFL loss gain
         'label_smoothing': 0.1,  # Label smoothing
-        'hsv_h': 0.03,  # Image HSV-Hue augmentation (increased)
-        'hsv_s': 0.9,  # Image HSV-Saturation augmentation (increased)
-        'hsv_v': 0.6,  # Image HSV-Value augmentation (increased)
+        'hsv_h': 0.05,  # Image HSV-Hue augmentation (increased)
+        'hsv_s': 1.0,  # Image HSV-Saturation augmentation (increased)
+        'hsv_v': 0.8,  # Image HSV-Value augmentation (increased)
         'degrees': 15.0,  # Image rotation (+/- deg)
         'translate': 0.2,  # Image translation (+/- fraction)
         'scale': 0.9,  # Image scale (+/- gain)
@@ -145,8 +146,8 @@ def train_model(
         'flipud': 0.5,  # Image flip up-down (probability)
         'fliplr': 0.5,  # Image flip left-right (probability)
         'mosaic': 1.0,  # Image mosaic (probability)
-        'mixup': 0.15,  # Image mixup (probability, added)
-        'copy_paste': 0.3,  # Segment copy-paste (probability, added)
+        'mixup': 0.2,  # Image mixup (probability, added)
+        'copy_paste': 0.4,  # Segment copy-paste (probability, added)
         'verbose': True,  # Verbose output
         'plots': True,  # Generate training plots
     }
@@ -336,12 +337,12 @@ def main():
     config = {
         'model_size': 'm',  # YOLOv8s for faster training and good accuracy
         'data_config': 'configs/garbage.yaml',
-        'epochs': 150,  # Sufficient for convergence with larger dataset
+        'epochs': 200,  # Sufficient for convergence with larger dataset
         'imgsz': 640,  # Standard YOLO size, good balance
         'batch': 128,  # Increased batch size for 4 GPUs (32 per GPU)
         'device': [0, 1, 2, 3],  # Use 4 GPUs
         'project': 'models',
-        'name': 'garbage_yolov8s',
+        'name': 'garbage_yolov8m_v3',
         'resume': False  # Set to True to resume training
     }
 

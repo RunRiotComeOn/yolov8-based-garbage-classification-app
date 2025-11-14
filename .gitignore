@@ -25,11 +25,11 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-models/garbage_yolov8s/*.log
-models/garbage_yolov8s/*.pt
-models/garbage_yolov8s/*.png
-models/garbage_yolov8s/weights/epoch*.pt
-models/garbage_yolov8s/weights/last.pt
+models/garbage_yolov8*/*.log
+models/garbage_yolov8*/*.pt
+models/garbage_yolov8*/*.png
+models/garbage_yolov8*/weights/epoch*.pt
+models/garbage_yolov8*/weights/last.pt
 yolo*.pt
 
 # Virtual Environment

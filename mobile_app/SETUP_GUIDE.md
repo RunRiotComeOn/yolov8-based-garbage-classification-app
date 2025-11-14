@@ -1,93 +1,93 @@
-# Flutter 移动应用快速配置指南
+# Flutter Mobile App Quick Setup Guide
 
-## 环境准备
+## Environment Setup
 
-### 1. 安装Flutter SDK
+### 1. Install Flutter SDK
 
 #### Windows
 ```bash
-# 下载Flutter SDK
+# Download Flutter SDK
 # https://flutter.dev/docs/get-started/install/windows
 
-# 解压到目录
-# 添加到系统环境变量 PATH
+# Unzip to a directory
+# Add to system environment variable PATH
 ```
 
 #### macOS
 ```bash
-# 使用Homebrew安装
+# Install via Homebrew
 brew install --cask flutter
 
-# 或手动下载
+# Or download manually
 # https://flutter.dev/docs/get-started/install/macos
 ```
 
 #### Linux
 ```bash
-# 下载Flutter SDK
+# Download Flutter SDK
 cd ~
 wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.x.x-stable.tar.xz
 tar xf flutter_linux_3.x.x-stable.tar.xz
 
-# 添加到PATH
+# Add to PATH
 echo 'export PATH="$PATH:`pwd`/flutter/bin"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-### 2. 验证Flutter安装
+### 2. Verify Flutter Installation
 ```bash
 flutter doctor
 ```
 
-输出应显示:
+Expected output:
 ```
 ✓ Flutter (Channel stable, 3.x.x)
 ✓ Android toolchain - develop for Android devices
-✓ Xcode - develop for iOS and macOS (仅macOS)
+✓ Xcode - develop for iOS and macOS (macOS only)
 ✓ Chrome - develop for the web
 ✓ Android Studio
 ✓ VS Code
 ✓ Connected device
 ```
 
-### 3. 安装Android Studio (Android开发)
+### 3. Install Android Studio (Android Development)
 
-1. 下载Android Studio: https://developer.android.com/studio
-2. 安装Android SDK
-3. 安装Android SDK命令行工具
-4. 配置Android模拟器或连接真机
+1. Download Android Studio: https://developer.android.com/studio
+2. Install Android SDK
+3. Install Android SDK command-line tools
+4. Configure Android emulator or connect a real device
 
-### 4. 安装Xcode (iOS开发, 仅macOS)
+### 4. Install Xcode (iOS Development, macOS only)
 
-1. 从Mac App Store安装Xcode
-2. 安装命令行工具:
+1. Install Xcode from the Mac App Store
+2. Install command-line tools:
 ```bash
 sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
 sudo xcodebuild -runFirstLaunch
 ```
 
-3. 同意许可协议:
+3. Accept license agreement:
 ```bash
 sudo xcodebuild -license accept
 ```
 
-## 项目配置
+## Project Configuration
 
-### 1. 进入项目目录
+### 1. Navigate to Project Directory
 ```bash
 cd /nas03/yixuh/garbage-classification/mobile_app
 ```
 
-### 2. 安装依赖
+### 2. Install Dependencies
 ```bash
 flutter pub get
 ```
 
-### 3. 配置API地址
+### 3. Configure API Endpoint
 
-#### 方法一: 局域网测试(推荐用于开发)
+#### Method 1: Local Network Testing (Recommended for Development)
 
-1. 获取服务器IP地址:
+1. Get server IP address:
 ```bash
 # Linux/Mac
 ifconfig | grep "inet " | grep -v 127.0.0.1
@@ -96,109 +96,109 @@ ifconfig | grep "inet " | grep -v 127.0.0.1
 ipconfig
 ```
 
-2. 编辑 `lib/services/api_service.dart`:
+2. Edit `lib/services/api_service.dart`:
 ```dart
 static const String defaultApiUrl = "http://192.168.1.10:8000";
-// 替换为你的服务器IP
+// Replace with your server IP
 ```
 
-#### 方法二: 使用ngrok(临时公网访问)
+#### Method 2: Use ngrok (Temporary Public Access)
 
-1. 在API服务器上安装ngrok:
+1. Install ngrok on the API server:
 ```bash
-# 下载ngrok
+# Download ngrok
 wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz
 tar xvzf ngrok-v3-stable-linux-amd64.tgz
 
-# 运行ngrok
+# Run ngrok
 ./ngrok http 8000
 ```
 
-2. 复制ngrok生成的URL (例如: https://xxxx.ngrok.io)
+2. Copy the generated ngrok URL (e.g., https://xxxx.ngrok.io)
 
-3. 更新API地址:
+3. Update API endpoint:
 ```dart
 static const String defaultApiUrl = "https://xxxx.ngrok.io";
 ```
 
-#### 方法三: 云服务器部署(生产环境)
+#### Method 3: Cloud Server Deployment (Production)
 
-1. 将API部署到云服务器
-2. 获取公网IP或域名
-3. 配置防火墙开放8000端口
-4. 更新API地址
+1. Deploy API to a cloud server
+2. Obtain public IP or domain name
+3. Open port 8000 in the firewall
+4. Update API endpoint
 
-### 4. 配置Android权限
+### 4. Configure Android Permissions
 
-文件: `android/app/src/main/AndroidManifest.xml` (已创建)
+File: `android/app/src/main/AndroidManifest.xml` (already created)
 
-确认包含以下权限:
+Ensure the following permissions are included:
 ```xml
 <uses-permission android:name="android.permission.CAMERA" />
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 <uses-permission android:name="android.permission.INTERNET" />
 ```
 
-### 5. 配置iOS权限
+### 5. Configure iOS Permissions
 
-文件: `ios/Runner/Info.plist` (已创建)
+File: `ios/Runner/Info.plist` (already created)
 
-确认包含以下权限说明:
+Ensure the following permission descriptions are included:
 ```xml
 <key>NSCameraUsageDescription</key>
-<string>需要使用相机拍摄垃圾照片进行识别</string>
+<string>Camera access is required to take photos of garbage for classification</string>
 <key>NSPhotoLibraryUsageDescription</key>
-<string>需要访问相册以选择垃圾照片进行识别</string>
+<string>Photo library access is required to select garbage images for classification</string>
 ```
 
-## 运行应用
+## Running the App
 
-### 1. 连接设备或启动模拟器
+### 1. Connect Device or Start Emulator
 
-#### Android真机
-- 开启开发者选项
-- 启用USB调试
-- 连接设备到电脑
-- 验证连接: `flutter devices`
+#### Android Real Device
+- Enable Developer Options
+- Enable USB Debugging
+- Connect device to computer
+- Verify connection: `flutter devices`
 
-#### Android模拟器
+#### Android Emulator
 ```bash
-# 启动模拟器
+# Start emulator
 flutter emulators
 flutter emulators --launch <emulator_id>
 ```
 
-#### iOS模拟器 (仅macOS)
+#### iOS Simulator (macOS only)
 ```bash
 open -a Simulator
 ```
 
-### 2. 运行应用
+### 2. Run the App
 
-#### 调试模式
+#### Debug Mode
 ```bash
 flutter run
 ```
 
-#### 发布模式
+#### Release Mode
 ```bash
 flutter run --release
 ```
 
-### 3. 热重载(开发时)
-- 修改代码后按 `r` 热重载
-- 按 `R` 热重启
-- 按 `q` 退出
+### 3. Hot Reload (During Development)
+- Press `r` to hot reload after code changes
+- Press `R` to hot restart
+- Press `q` to quit
 
-## 构建发布版本
+## Building Release Versions
 
 ### Android APK
 
 ```bash
-# 构建APK
+# Build APK
 flutter build apk --release
 
-# 输出位置
+# Output location
 # build/app/outputs/flutter-apk/app-release.apk
 ```
 
@@ -207,74 +207,74 @@ flutter build apk --release
 ```bash
 flutter build appbundle --release
 
-# 输出位置
+# Output location
 # build/app/outputs/bundle/release/app-release.aab
 ```
 
-### iOS IPA (仅macOS)
+### iOS IPA (macOS only)
 
 ```bash
-# 1. 配置签名证书
+# 1. Configure signing certificate
 open ios/Runner.xcworkspace
 
-# 2. 构建
+# 2. Build
 flutter build ios --release
 
-# 3. 在Xcode中归档和导出IPA
+# 3. Archive and export IPA in Xcode
 ```
 
-## 测试清单
+## Test Checklist
 
-### 功能测试
-- [ ] 拍照功能正常
-- [ ] 相册选择正常
-- [ ] API连接成功
-- [ ] 检测结果显示正常
-- [ ] 边界框绘制正确
-- [ ] 分类指南显示正常
-- [ ] 搜索功能正常
-- [ ] 页面切换流畅
+### Functional Testing
+- [ ] Camera capture works
+- [ ] Photo gallery selection works
+- [ ] API connection successful
+- [ ] Detection results displayed correctly
+- [ ] Bounding boxes drawn accurately
+- [ ] Classification guide displayed
+- [ ] Search functionality works
+- [ ] Smooth page transitions
 
-### 权限测试
-- [ ] 首次请求相机权限
-- [ ] 首次请求相册权限
-- [ ] 权限拒绝后的提示
-- [ ] 权限设置跳转
+### Permission Testing
+- [ ] First-time camera permission request
+- [ ] First-time photo library permission request
+- [ ] Prompt when permissions denied
+- [ ] Navigation to permission settings
 
-### 网络测试
-- [ ] API正常响应
-- [ ] 网络错误提示
-- [ ] 超时处理
-- [ ] 重试机制
+### Network Testing
+- [ ] API responds correctly
+- [ ] Network error prompts
+- [ ] Timeout handling
+- [ ] Retry mechanism
 
-### UI测试
-- [ ] 不同屏幕尺寸显示正常
-- [ ] 横竖屏切换
-- [ ] 加载动画
-- [ ] 错误提示
+### UI Testing
+- [ ] Displays correctly on different screen sizes
+- [ ] Portrait/landscape orientation switching
+- [ ] Loading animations
+- [ ] Error messages
 
-## 常见配置问题
+## Common Configuration Issues
 
-### 1. Flutter SDK未找到
+### 1. Flutter SDK Not Found
 ```bash
-# 设置Flutter路径
+# Set Flutter path
 export PATH="$PATH:/path/to/flutter/bin"
 ```
 
-### 2. Android许可未接受
+### 2. Android Licenses Not Accepted
 ```bash
 flutter doctor --android-licenses
 ```
 
-### 3. CocoaPods安装失败 (iOS)
+### 3. CocoaPods Installation Failed (iOS)
 ```bash
 cd ios
 pod install
 cd ..
 ```
 
-### 4. Gradle下载慢 (Android)
-修改 `android/build.gradle`:
+### 4. Slow Gradle Downloads (Android)
+Modify `android/build.gradle`:
 ```gradle
 allprojects {
     repositories {
@@ -286,84 +286,84 @@ allprojects {
 }
 ```
 
-### 5. API连接失败
+### 5. API Connection Failed
 
-#### Android模拟器连接本地API
+#### Android Emulator Connecting to Local API
 ```dart
-// 使用10.0.2.2代替localhost
+// Use 10.0.2.2 instead of localhost
 static const String defaultApiUrl = "http://10.0.2.2:8000";
 ```
 
-#### Android真机连接局域网API
+#### Android Real Device Connecting to LAN API
 ```dart
-// 使用服务器实际IP
+// Use actual server IP
 static const String defaultApiUrl = "http://192.168.1.10:8000";
 ```
 
-## API服务器配置
+## API Server Configuration
 
-### 1. 确认API正在运行
+### 1. Confirm API is Running
 ```bash
 cd /nas03/yixuh/garbage-classification
 conda activate garbage-classification
 python api/main.py
 ```
 
-### 2. 测试API连接
+### 2. Test API Connection
 ```bash
 curl http://localhost:8000/health
 ```
 
-### 3. 允许局域网访问
-确保API监听 `0.0.0.0`:
+### 3. Allow LAN Access
+Ensure API listens on `0.0.0.0`:
 ```python
 # api/main.py
 uvicorn.run("main:app", host="0.0.0.0", port=8000)
 ```
 
-### 4. 配置防火墙
+### 4. Configure Firewall
 ```bash
 # Linux
 sudo ufw allow 8000
 
-# 或临时关闭防火墙测试
+# Or temporarily disable firewall for testing
 sudo ufw disable
 ```
 
-## 性能优化
+## Performance Optimization
 
-### 1. 启用代码压缩
+### 1. Enable Code Obfuscation
 ```bash
 flutter build apk --release --obfuscate --split-debug-info=build/debug-info
 ```
 
-### 2. 减小APK大小
+### 2. Reduce APK Size
 ```bash
-# 使用App Bundle
+# Use App Bundle
 flutter build appbundle --release
 
-# 或构建特定架构的APK
+# Or build per-ABI APKs
 flutter build apk --release --split-per-abi
 ```
 
-### 3. 优化图片资源
-- 使用WebP格式
-- 压缩图片
-- 使用适当的分辨率
+### 3. Optimize Image Assets
+- Use WebP format
+- Compress images
+- Use appropriate resolutions
 
-## 调试技巧
+## Debugging Tips
 
-### 1. 查看日志
+### 1. View Logs
 ```bash
-# 实时查看日志
+# Real-time logs
 flutter logs
 
-# 或在运行时查看
+# Or during runtime
 flutter run --verbose
 ```
 
-### 2. 调试网络请求
-在 `lib/services/api_service.dart` 中添加拦截器:
+### 2. Debug Network Requests
+Add interceptor in `lib/services/api_service.dart`:
 ```dart
 _dio.interceptors.add(LogInterceptor(
   requestBody: true,
@@ -371,54 +371,41 @@ _dio.interceptors.add(LogInterceptor(
 ));
 ```
 
-### 3. 性能分析
+### 3. Performance Profiling
 ```bash
 flutter run --profile
 ```
 
-### 4. 内存泄漏检测
+### 4. Memory Leak Detection
 ```bash
 flutter run --enable-checked-mode
 ```
 
-## 发布到应用商店
+## Publishing to App Stores
 
 ### Google Play Store
-1. 创建Google Play开发者账号
-2. 创建应用
-3. 构建App Bundle
-4. 上传并填写应用信息
-5. 提交审核
+1. Create a Google Play developer account
+2. Create an app
+3. Build App Bundle
+4. Upload and fill in app details
+5. Submit for review
 
 ### Apple App Store
-1. 创建Apple开发者账号
-2. 在App Store Connect创建应用
-3. 配置证书和描述文件
-4. 构建并归档
-5. 上传IPA
-6. 提交审核
+1. Create an Apple developer account
+2. Create app in App Store Connect
+3. Configure certificates and provisioning profiles
+4. Build and archive
+5. Upload IPA
+6. Submit for review
 
-## 支持与帮助
+## Support & Help
 
-### Flutter官方文档
+### Official Flutter Documentation
 - https://flutter.dev/docs
 
-### 常见问题
+### Frequently Asked Questions
 - https://flutter.dev/docs/resources/faq
 
-### 社区支持
+### Community Support
 - Stack Overflow: https://stackoverflow.com/questions/tagged/flutter
 - Flutter Dev Discord: https://discord.gg/flutter
-
-## 下一步
-
-1. ✅ 完成环境配置
-2. ✅ 配置API地址
-3. ✅ 运行应用测试
-4. ✅ 进行功能测试
-5. ⬜ 根据需求定制UI
-6. ⬜ 添加额外功能
-7. ⬜ 构建发布版本
-8. ⬜ 部署到生产环境
-
-祝你开发顺利! 🚀
