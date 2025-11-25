@@ -1,4 +1,4 @@
-# Garbage Detection AI System - Complete Documentation
+# Garbage Detection AI System
 
 A comprehensive AI-powered garbage detection system featuring YOLOv8 object detection, RESTful API backend, and cross-platform mobile application for real-time waste identification and disposal guidance.
 
